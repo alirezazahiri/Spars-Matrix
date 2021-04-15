@@ -4,10 +4,15 @@ from Colors import Colors
 import os
 # Color The Texts
 
-def getMatrix():
+def getMatrix(row=0, col=0):
 
-    row_size = int(input('row size: ').split()[0])
-    col_size = int(input('column size: ').split()[0])
+    row_size = row
+    col_size = col
+
+    if row == 0 and col == 0:
+        row_size = int(input('row size: ').split()[0])
+        col_size = int(input('column size: ').split()[0])
+
 
     matrix = [([0] * row_size) for _ in range(col_size)]
 
@@ -28,17 +33,47 @@ def getMatrix():
 
 def transpose():
     makeTranspose = Operation().transpose
-    makeTranspose(matrix=getMatrix())
+    matrix = getMatrix()
+    transposed = makeTranspose(matrix)
+    print(' -- Transposed -- ')
+    Operation().print(transposed)
 
 def subtract():
-    print('subtract fired!')
+    matrixOne = getMatrix()
+
+    row = len(matrixOne[0])
+    col = len(matrixOne)
+
+    matrixTwo = getMatrix(row, col)
+
+    calcSubtraction = Operation().subtract
+    calculated = calcSubtraction(matrixOne, matrixTwo)
+    print(' -- Subtraction -- ')
+    Operation().print(calculated)
 
 def add():
-    print('add fired!')
+    matrixOne = getMatrix()
+
+    row = len(matrixOne[0])
+    col = len(matrixOne)
+
+    matrixTwo = getMatrix(row, col)
+
+    calcAddition = Operation().add
+    calculated = calcAddition(matrixOne, matrixTwo)
+    print(' -- Addition -- ')
+    Operation().print(calculated)
 
 def multiply():
-    print('multiply fired!')
+    matrixOne = getMatrix()
 
+    row = len(matrixOne)
+    col = len(matrixOne[0])
+
+    matrixTwo = getMatrix(row, col)
+
+    calcMultiplication = Operation().multiply
+    calcMultiplication(matrixOne, matrixTwo)
 
 def showMenu():
     print('1. transpose')
@@ -65,10 +100,44 @@ if __name__ == '__main__':
             add()
         elif choice == '4' or choice.casefold() == 'multiply':
             multiply()
-        elif choice == '5' or choice.casefold() == 'quit':
+        elif choice == '5' or choice.casefold() in ['quit', 'exit']:
             quit = True
-        elif choice.casefold() == 'cls':
+        elif choice.casefold() in ['cls', 'clear']:
             os.system('CLS')
         else:
             print('ERROR: INVALID Command!')
 
+
+0
+10
+0
+12
+0
+0
+0
+0
+0
+0
+5
+0
+15
+12
+0
+0
+
+0
+0
+8
+0
+0
+0
+0
+23
+0
+0
+9
+0
+20
+25
+0
+0
