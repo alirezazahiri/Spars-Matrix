@@ -1,3 +1,4 @@
 # Ignore .idea folder
 .idea
 .gitignore.txt
+*.pyc
