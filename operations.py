@@ -1,3 +1,5 @@
+import math
+
 from Colors import Colors
 class Operation(object):
 
@@ -91,11 +93,41 @@ class Operation(object):
         return self.sort_sparse(result)
 
     def multiply(self, matrixOne: list, matrixTwo: list):
-        sparseOne = self.sparse(matrixOne)
         transposedTwo = self.transpose(matrixTwo)
+        matrixTwo = self.de_sparse(transposedTwo, len(matrixTwo), len(matrixTwo[0]))
 
-        self.print(sparseOne)
-        self.print(transposedTwo)
+        # fetch result list
+        max_length = len(matrixOne)
+        result = [([0] * max_length) for _ in range(max_length)]
+
+        self.print(matrixOne)
+        self.print(matrixTwo)
+
+        for i in range(max_length):
+            for j in range(max_length):
+                for l in range(len(matrixTwo[0])):
+                    if matrixOne[i][l] != 0 and matrixTwo[j][l] != 0:
+                        result[i][j] += matrixOne[i][l] * matrixTwo[j][l]
+
+        for item in result:
+            print(item)
+
+# print(f'result[{i}][{j}] ='
+#       f' A[{i}][{l}] * B[{j}][{l}] =='
+#       f' {matrixOne[i][l]} * {matrixTwo[j][l]} =='
+#       f' {result[i][j] + matrixOne[i][l] * matrixTwo[j][l]}')
+
+        return self.sparse(result)
+
+# result[i][j] = matrixOne[i][?] * matrixTwo[j][?]
+
+    @staticmethod
+    def de_sparse(matrix: list, row, col):
+        de_sparse_list = [([0] * col) for _ in range(row)]
+        for i in range(len(matrix)):
+            de_sparse_list[matrix[i][0]][matrix[i][1]] = matrix[i][2]
+
+        return de_sparse_list
 
     @staticmethod
     def sort_sparse(matrix: list):
@@ -125,26 +157,3 @@ class Operation(object):
                 print('{}{}'.format(Colors.OKCYAN, matrix[i][j]), end=' ')
             print()
         print('{}{}{}'.format(Colors.HEADER, str('-' * 12), Colors.ENDC))
-
-
-4
-3
-3
-0
-10
-12
-1
-0
-2
-0
-0
-0
-2
-5
-0
-0
-1
-0
-8
-0
-0
