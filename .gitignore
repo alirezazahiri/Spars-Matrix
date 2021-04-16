@@ -2,3 +2,4 @@
 .idea
 .gitignore.txt
 *.pyc
+inputs.txt
