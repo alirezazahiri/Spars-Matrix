@@ -42,7 +42,7 @@ class Operation(object):
                 if list_to_transpose[i][1] > list_to_transpose[j][1] and list_to_transpose[i][0] > list_to_transpose[j][0]:
                     list_to_transpose[i], list_to_transpose[j] = list_to_transpose[j], list_to_transpose[i]
 
-        return list_to_transpose
+        return self.sort_sparse(list_to_transpose)
 
     def subtract(self, matrixOne: list, matrixTwo: list):
         sparseOne = self.sparse(matrixOne)
@@ -65,7 +65,7 @@ class Operation(object):
             else:
                 result.append([sparseOne[i][0], sparseOne[i][1], sparseOne[i][2]])
 
-        return result
+        return self.sort_sparse(result)
 
     def add(self, matrixOne: list, matrixTwo: list):
         sparseOne = self.sparse(matrixOne)
@@ -88,7 +88,7 @@ class Operation(object):
             else:
                 result.append([sparseOne[i][0], sparseOne[i][1], sparseOne[i][2]])
 
-        return result
+        return self.sort_sparse(result)
 
     def multiply(self, matrixOne: list, matrixTwo: list):
         sparseOne = self.sparse(matrixOne)
@@ -97,6 +97,16 @@ class Operation(object):
         self.print(sparseOne)
         self.print(transposedTwo)
 
+    @staticmethod
+    def sort_sparse(matrix: list):
+
+        for i in range(len(matrix)-1):
+            if matrix[i][0] > matrix[i + 1][0]:
+                matrix[i], matrix[i + 1] = matrix[i + 1], matrix[i]
+            elif matrix[i][0] == matrix[i + 1][0] and matrix[i][1] > matrix[i + 1][1]:
+                matrix[i], matrix[i + 1] = matrix[i + 1], matrix[i]
+
+        return matrix
 
     @staticmethod
     def not_zeros(matrix):
@@ -117,3 +127,24 @@ class Operation(object):
         print('{}{}{}'.format(Colors.HEADER, str('-' * 12), Colors.ENDC))
 
 
+4
+3
+3
+0
+10
+12
+1
+0
+2
+0
+0
+0
+2
+5
+0
+0
+1
+0
+8
+0
+0
