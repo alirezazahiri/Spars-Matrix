@@ -22,9 +22,7 @@ class Operation(object):
         return sparse_matrix
 
     def transpose(self, matrix):
-        self.print(matrix)
         list_to_transpose = self.sparse(matrix)
-        self.print(list_to_transpose)
 
         # TODO: optimize sorting algo
         # swapped indexes
@@ -51,9 +49,6 @@ class Operation(object):
         sparseTwo = self.sparse(matrixTwo)
         result = []
 
-        self.print(sparseOne)
-        self.print(sparseTwo)
-
         if len(sparseOne) < len(sparseTwo):
             sparseOne, sparseTwo = sparseTwo, sparseOne
 
@@ -77,9 +72,6 @@ class Operation(object):
         sparseTwo = self.sparse(matrixTwo)
         result = []
 
-        self.print(sparseOne)
-        self.print(sparseTwo)
-
         if len(sparseOne) < len(sparseTwo):
             sparseOne, sparseTwo = sparseTwo, sparseOne
 
@@ -102,7 +94,9 @@ class Operation(object):
         sparseOne = self.sparse(matrixOne)
         transposedTwo = self.transpose(matrixTwo)
 
-        
+        self.print(sparseOne)
+        self.print(transposedTwo)
+
 
     @staticmethod
     def not_zeros(matrix):
@@ -115,11 +109,11 @@ class Operation(object):
 
     @staticmethod
     def print(matrix):
-        print('-- Matrix -- ')
+        print('{}-- Matrix --{} '.format(Colors.HEADER, Colors.ENDC))
         for i in range(len(matrix)):
             for j in range(len(matrix[i])):
                 print('{}{}'.format(Colors.OKCYAN, matrix[i][j]), end=' ')
-            print('{}'.format(Colors.ENDC))
-        print('-' * 12)
+            print()
+        print('{}{}{}'.format(Colors.HEADER, str('-' * 12), Colors.ENDC))
 
 
