@@ -34,7 +34,6 @@ def getMatrix(row=0, col=0):
 
     return matrix
 
-
 def transpose():
     makeTranspose = Operation().transpose
     matrix = getMatrix()
@@ -77,7 +76,9 @@ def multiply():
     matrixTwo = getMatrix(row, col)
 
     calcMultiplication = Operation().multiply
-    calcMultiplication(matrixOne, matrixTwo)
+    calculated = calcMultiplication(matrixOne, matrixTwo)
+    print('{}Multiplication ->{}'.format(Colors.HEADER, Colors.ENDC))
+    Operation().print(calculated)
 
 def showMenu():
     print('{}{}'.format(Colors.BOLD, Colors.OKBLUE), end='')
@@ -90,7 +91,7 @@ def showMenu():
 
 
 if __name__ == '__main__':
-
+    os.system('CLS')
     quit = False
 
     while not quit:
@@ -112,39 +113,4 @@ if __name__ == '__main__':
             os.system('CLS')
         else:
             print('{}ERROR: INVALID Command!{}'.format(Colors.FAIL, Colors.ENDC))
-
-
-0
-10
-0
-12
-0
-0
-0
-0
-0
-0
-5
-0
-15
-12
-0
-0
-
-0
-0
-8
-0
-0
-0
-0
-23
-0
-0
-9
-0
-20
-25
-0
-0
 
