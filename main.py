@@ -1,8 +1,6 @@
-# add import statement for your module
 from operations import Operation
 from Colors import Colors
 import os
-# Color The Texts
 
 def getMatrix(row=0, col=0):
 
