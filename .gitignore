@@ -1,5 +1,8 @@
 # Ignore .idea folder
 .idea
-.gitignore.txt
+
+# Ignore __pycache__
 *.pyc
+
+# Ignore inputs.txt file
 inputs.txt
