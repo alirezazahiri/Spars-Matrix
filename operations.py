@@ -1,6 +1,6 @@
 import math
-
 from Colors import Colors
+
 class Operation(object):
 
     def __init__(self) -> None:
@@ -112,14 +112,7 @@ class Operation(object):
         for item in result:
             print(item)
 
-# print(f'result[{i}][{j}] ='
-#       f' A[{i}][{l}] * B[{j}][{l}] =='
-#       f' {matrixOne[i][l]} * {matrixTwo[j][l]} =='
-#       f' {result[i][j] + matrixOne[i][l] * matrixTwo[j][l]}')
-
         return self.sparse(result)
-
-# result[i][j] = matrixOne[i][?] * matrixTwo[j][?]
 
     @staticmethod
     def de_sparse(matrix: list, row, col):
