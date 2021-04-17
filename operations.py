@@ -24,77 +24,55 @@ class Operation(object):
         return sparse_matrix
 
     def transpose(self, matrix):
+        self.print(matrix)
         list_to_transpose = self.sparse(matrix)
+        self.print(list_to_transpose)
 
         # TODO: optimize sorting algo
         # swapped indexes
         for i in range(len(list_to_transpose)):
-            for j in range(3):
-                list_to_transpose[i][0], list_to_transpose[i][1] = list_to_transpose[i][1], list_to_transpose[i][0]
+            list_to_transpose[i][0], list_to_transpose[i][1] = list_to_transpose[i][1], list_to_transpose[i][0]
 
-        # sorting row keys
-        for i in range(len(list_to_transpose)):
-            for j in range(i, len(list_to_transpose)):
-                if list_to_transpose[i][0] > list_to_transpose[j][0]:
-                    list_to_transpose[i], list_to_transpose[j] = list_to_transpose[j], list_to_transpose[i]
+        de_sparse_list = self.de_sparse(list_to_transpose, len(matrix), len(matrix[0]))
 
-        # sorting column keys
-        for i in range(len(list_to_transpose)):
-            for j in range(i, len(list_to_transpose)):
-                if list_to_transpose[i][1] > list_to_transpose[j][1] and list_to_transpose[i][0] > list_to_transpose[j][0]:
-                    list_to_transpose[i], list_to_transpose[j] = list_to_transpose[j], list_to_transpose[i]
-
-        return self.sort_sparse(list_to_transpose)
+        return self.sparse(de_sparse_list)
 
     def subtract(self, matrixOne: list, matrixTwo: list):
         sparseOne = self.sparse(matrixOne)
         sparseTwo = self.sparse(matrixTwo)
-        result = []
+        result = [([0] * len(matrixOne)) for _ in range(len(matrixOne))]
 
-        if len(sparseOne) < len(sparseTwo):
-            sparseOne, sparseTwo = sparseTwo, sparseOne
+        self.print(sparseOne)
+        self.print(sparseTwo)
 
-        for i in range(len(sparseTwo)):
-            if sparseOne[i][0] == sparseTwo[i][0] and sparseOne[i][1] == sparseTwo[i][1]:
-                result.append([sparseTwo[i][0], sparseTwo[i][1], sparseOne[i][2] - sparseTwo[i][2]])
-            else:
-                result.append([sparseOne[i][0], sparseOne[i][1], sparseOne[i][2]])
-                result.append([sparseTwo[i][0], sparseTwo[i][1], sparseTwo[i][2]])
+        for i in range(len(result)):
+            for j in range(len(result[i])):
+                if matrixOne[i][j] == 0:
+                    matrixTwo[i][j] *= -1
+                result[i][j] += matrixOne[i][j] - matrixTwo[i][j]
 
-        for i in range(len(sparseTwo), len(sparseOne)):
-            if sparseOne[i][0] == sparseTwo[i][0] and sparseOne[i][1] == sparseTwo[i][1]:
-                result.append([sparseOne[i][0], sparseOne[i][1], sparseOne[i][2] - sparseTwo[i][2]])
-            else:
-                result.append([sparseOne[i][0], sparseOne[i][1], sparseOne[i][2]])
-
-        return self.sort_sparse(result)
+        return self.sparse(result)
 
     def add(self, matrixOne: list, matrixTwo: list):
         sparseOne = self.sparse(matrixOne)
         sparseTwo = self.sparse(matrixTwo)
-        result = []
+        result = [([0] * len(matrixOne)) for _ in range(len(matrixOne))]
 
-        if len(sparseOne) < len(sparseTwo):
-            sparseOne, sparseTwo = sparseTwo, sparseOne
+        self.print(sparseOne)
+        self.print(sparseTwo)
 
-        for i in range(len(sparseTwo)):
-            if sparseOne[i][0] == sparseTwo[i][0] and sparseOne[i][1] == sparseTwo[i][1]:
-                result.append([sparseTwo[i][0], sparseTwo[i][1], sparseOne[i][2] + sparseTwo[i][2]])
-            else:
-                result.append([sparseOne[i][0], sparseOne[i][1], sparseOne[i][2]])
-                result.append([sparseTwo[i][0], sparseTwo[i][1], sparseTwo[i][2]])
+        for i in range(len(result)):
+            for j in range(len(result[i])):
+                result[i][j] += matrixOne[i][j] + matrixTwo[i][j]
 
-        for i in range(len(sparseTwo), len(sparseOne)):
-            if sparseOne[i][0] == sparseTwo[i][0] and sparseOne[i][1] == sparseTwo[i][1]:
-                result.append([sparseOne[i][0], sparseOne[i][1], sparseOne[i][2] + sparseTwo[i][2]])
-            else:
-                result.append([sparseOne[i][0], sparseOne[i][1], sparseOne[i][2]])
-
-        return self.sort_sparse(result)
+        return self.sparse(result)
 
     def multiply(self, matrixOne: list, matrixTwo: list):
         transposedTwo = self.transpose(matrixTwo)
         matrixTwo = self.de_sparse(transposedTwo, len(matrixTwo), len(matrixTwo[0]))
+
+        self.print(transposedTwo)
+        self.print(self.sparse(matrixOne))
 
         # fetch result list
         max_length = len(matrixOne)
@@ -117,17 +95,6 @@ class Operation(object):
         return de_sparse_list
 
     @staticmethod
-    def sort_sparse(matrix: list):
-
-        for i in range(len(matrix)-1):
-            if matrix[i][0] > matrix[i + 1][0]:
-                matrix[i], matrix[i + 1] = matrix[i + 1], matrix[i]
-            elif matrix[i][0] == matrix[i + 1][0] and matrix[i][1] > matrix[i + 1][1]:
-                matrix[i], matrix[i + 1] = matrix[i + 1], matrix[i]
-
-        return matrix
-
-    @staticmethod
     def not_zeros(matrix):
         count = 0
         for i in range(len(matrix)):
@@ -137,10 +104,11 @@ class Operation(object):
         return count
 
     @staticmethod
-    def print(matrix):
+    def print(matrix: list):
         print('{}-- Matrix --{} '.format(Colors.HEADER, Colors.ENDC))
         for i in range(len(matrix)):
             for j in range(len(matrix[i])):
                 print('{}{}'.format(Colors.OKCYAN, matrix[i][j]), end=' ')
             print()
         print('{}{}{}'.format(Colors.HEADER, str('-' * 12), Colors.ENDC))
+
