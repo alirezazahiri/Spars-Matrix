@@ -113,4 +113,3 @@ if __name__ == '__main__':
             os.system('CLS')
         else:
             print('{}ERROR: INVALID Command!{}'.format(Colors.FAIL, Colors.ENDC))
-
