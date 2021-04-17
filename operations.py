@@ -100,17 +100,11 @@ class Operation(object):
         max_length = len(matrixOne)
         result = [([0] * max_length) for _ in range(max_length)]
 
-        self.print(matrixOne)
-        self.print(matrixTwo)
-
         for i in range(max_length):
             for j in range(max_length):
                 for l in range(len(matrixTwo[0])):
                     if matrixOne[i][l] != 0 and matrixTwo[j][l] != 0:
                         result[i][j] += matrixOne[i][l] * matrixTwo[j][l]
-
-        for item in result:
-            print(item)
 
         return self.sparse(result)
 
