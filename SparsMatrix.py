@@ -79,16 +79,16 @@ class SparsMatrix:
         if self.col != b.row:
             return None
 
+        check = []
         b = b.transpose()
         result = SparsMatrix(self.row, b.row)
 
-        apos = 0
-        bpos = 0
-
-        while apos < self.len:
+        # while apos < self.len:
+        for apos in range(self.len):
             r = self.data[apos][0]
 
-            while bpos < b.len:
+            # while bpos < b.len:
+            for bpos in range(b.len):
                 c = b.data[bpos][0]
                 tempa, tempb = apos, bpos
                 sum = 0
@@ -103,7 +103,9 @@ class SparsMatrix:
                         tempb += 1
 
                 if sum != 0:
-                    result.insert(r, c, sum)
+                    if [r, c] not in check:
+                        check.append([r, c])
+                        result.insert(r, c, sum)
 
                 while bpos < b.len and b.data[bpos][0] == c:
                     bpos += 1
