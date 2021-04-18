@@ -83,11 +83,9 @@ class SparsMatrix:
         b = b.transpose()
         result = SparsMatrix(self.row, b.row)
 
-        # while apos < self.len:
         for apos in range(self.len):
             r = self.data[apos][0]
 
-            # while bpos < b.len:
             for bpos in range(b.len):
                 c = b.data[bpos][0]
                 tempa, tempb = apos, bpos
