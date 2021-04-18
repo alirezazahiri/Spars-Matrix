@@ -1,4 +1,3 @@
-import math
 from Colors import Colors
 
 class Operation(object):
@@ -47,8 +46,6 @@ class Operation(object):
 
         for i in range(len(result)):
             for j in range(len(result[i])):
-                if matrixOne[i][j] == 0:
-                    matrixTwo[i][j] *= -1
                 result[i][j] += matrixOne[i][j] - matrixTwo[i][j]
 
         return self.sparse(result)

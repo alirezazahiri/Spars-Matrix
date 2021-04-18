@@ -6,3 +6,6 @@
 
 # Ignore inputs.txt file
 inputs.txt
+
+# Ignore operations.py
+operations.py
