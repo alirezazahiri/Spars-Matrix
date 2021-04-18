@@ -116,11 +116,13 @@ class SparsMatrix:
         return result
 
     def print(self):
+        print(f'{Colors.UNDERLINE}{Colors.FAIL}                      {Colors.ENDC}\n')
         print(f'{Colors.HEADER}RESULT[{self.row}][{self.col}] -> {Colors.ENDC}')
 
         print('{}{:<6}{:<6}{:<6}{}'.format(Colors.WARNING, 'ROW', 'COL', 'VALUE', Colors.ENDC))
         for i in range(self.len):
             print('{}{:<6}{:<6}{:<6}{}'.format(Colors.OKCYAN, self.data[i][0], self.data[i][1], self.data[i][2], Colors.ENDC))
+        print(f'{Colors.UNDERLINE}{Colors.FAIL}                      {Colors.ENDC}')
 
     def merge(self, l, m, r):
         x = m - l + 1

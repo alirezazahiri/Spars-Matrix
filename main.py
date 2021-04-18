@@ -8,14 +8,14 @@ def getMatrix(row=0, col=0):
     col_size = col
 
     if row == 0 and col == 0:
-        row_size = int(input('row size: ').split()[0])
+        row_size = int(input(f'{Colors.OKGREEN}row size: ').split()[0])
         col_size = int(input('column size: ').split()[0])
 
     matrix = SparsMatrix(row_size, col_size)
 
-    print('Put Numbers in this {}[{}][{}]{} Matrix\n'
+    print('{}\nPut Numbers in this {}[{}][{}]{} Matrix\n'
           '{}({}CAUTION{}: skipping an index means {}ZERO{} as the assigned number to that index!{}){}\n'
-          .format(Colors.WARNING,
+          .format(Colors.ENDC, Colors.WARNING,
                   row_size, col_size,
                   Colors.ENDC,
                   Colors.FAIL,
@@ -25,7 +25,7 @@ def getMatrix(row=0, col=0):
 
     for i in range(row_size):
         for j in range(col_size):
-            value = input('[{}][{}] : '.format(i, j))
+            value = input('{}[{}][{}] : {}'.format(Colors.OKGREEN, i, j, Colors.ENDC))
             if value == '':
                 matrix.insert(i, j, 0)
             else:
