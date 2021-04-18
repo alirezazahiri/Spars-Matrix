@@ -2,15 +2,11 @@ from Colors import Colors
 
 class SparsMatrix:
 
-
-
-    def __init__(self, r, c, MAX_DEFAULT=150) -> None:
+    def __init__(self, r, c) -> None:
         self.row = r
         self.col = c
-
-        self.MAX = MAX_DEFAULT
-        self.data = [([0] * self.MAX) for _ in range(3)]
         self.len = 0
+        self.data = [([0] * 3) for _ in range(150)]
 
     def insert(self, r, c, val):
         if r > self.row or c > self.col:
@@ -32,11 +28,12 @@ class SparsMatrix:
         result = SparsMatrix(self.row, self.col)
 
         while apos < self.len and bpos < b.len:
-            if self.data[apos][0] > b.data[bpos][0] or self.data[apos][0] == b.data[bpos][0] and self.data[apos][1] > b.data[bpos][1]:
+            if self.data[apos][0] > b.data[bpos][0] or (self.data[apos][0] == b.data[bpos][0] and self.data[apos][1] > b.data[bpos][1]):
                 result.insert(b.data[bpos][0], b.data[bpos][1], b.data[bpos][2])
                 bpos += 1
 
-            elif self.data[apos][0] < b.data[bpos][0] or self.data[apos][0] == b.data[bpos][0] and self.data[apos][1] < b.data[bpos][1]:
+
+            elif self.data[apos][0] < b.data[bpos][0] or (self.data[apos][0] == b.data[bpos][0] and self.data[apos][1] < b.data[bpos][1]):
                 result.insert(self.data[apos][0], self.data[apos][1], self.data[apos][2])
                 apos += 1
 
@@ -46,17 +43,17 @@ class SparsMatrix:
                 if addedval != 0:
                     result.insert(self.data[apos][0], self.data[apos][1], addedval)
 
-                    apos += 1
-                    bpos += 1
-
-            while apos < self.len:
-                result.insert(self.data[apos][0], self.data[apos][1], self.data[apos][2])
                 apos += 1
-            while apos < self.len:
-                result.insert(self.data[bpos][0], self.data[bpos][1], self.data[bpos][2])
                 bpos += 1
 
-            return result
+        while apos < self.len:
+            result.insert(self.data[apos][0], self.data[apos][1], self.data[apos][2])
+            apos += 1
+        while bpos < self.len:
+            result.insert(b.data[bpos][0], b.data[bpos][1], b.data[bpos][2])
+            bpos += 1
+
+        return result
 
     def toNegative(self):
         for i in range(self.len):
@@ -83,9 +80,10 @@ class SparsMatrix:
             return None
 
         b = b.transpose()
-        apos, bpos = 0, 0
-
         result = SparsMatrix(self.row, b.row)
+
+        apos = 0
+        bpos = 0
 
         while apos < self.len:
             r = self.data[apos][0]
@@ -94,7 +92,7 @@ class SparsMatrix:
                 c = b.data[bpos][0]
                 tempa, tempb = apos, bpos
                 sum = 0
-                while tempa < self.len and self.data[tempa][0] == r and tempb < b.len and b.data[tempb][0]==c:
+                while tempa < self.len and self.data[tempa][0] == r and tempb < b.len and b.data[tempb][0] == c:
                     if self.data[tempa][1] < b.data[tempb][1]:
                         tempa += 1
                     elif self.data[tempa][1] > b.data[tempb][1]:
@@ -118,14 +116,15 @@ class SparsMatrix:
     def print(self):
         print(f'{Colors.HEADER}RESULT[{self.row}][{self.col}] -> {Colors.ENDC}')
 
+        print('{}{:<6}{:<6}{:<6}{}'.format(Colors.WARNING, 'ROW', 'COL', 'VALUE', Colors.ENDC))
         for i in range(self.len):
-            print('{:<6}{:<6}{:<6}'.format(self.data[i][0], self.data[i][1], self.data[i][2]))
+            print('{}{:<6}{:<6}{:<6}{}'.format(Colors.OKCYAN, self.data[i][0], self.data[i][1], self.data[i][2], Colors.ENDC))
 
     def merge(self, l, m, r):
         x = m - l + 1
         y = r - m
-        L = [([0] * x) for _ in range(3)]
-        R = [([0] * y) for _ in range(3)]
+        L = [([0] * 3) for _ in range(x)]
+        R = [([0] * 3) for _ in range(y)]
 
         for i in range(x):
             L[i][0] = self.data[l + i][0]
@@ -171,7 +170,7 @@ class SparsMatrix:
         if r <= l:
             return
 
-        m = (l + r) / 2
+        m = (l + r) // 2
         self.mergeSort(l, m)
         self.mergeSort(m+1, r)
         self.merge(l, m, r)

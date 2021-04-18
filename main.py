@@ -1,4 +1,3 @@
-# from operations import Operation
 from Colors import Colors
 from SparsMatrix import SparsMatrix
 import os
