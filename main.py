@@ -1,5 +1,6 @@
-from operations import Operation
+# from operations import Operation
 from Colors import Colors
+from SparsMatrix import SparsMatrix
 import os
 
 def getMatrix(row=0, col=0):
@@ -11,8 +12,7 @@ def getMatrix(row=0, col=0):
         row_size = int(input('row size: ').split()[0])
         col_size = int(input('column size: ').split()[0])
 
-
-    matrix = [([0] * row_size) for _ in range(col_size)]
+    matrix = SparsMatrix(row_size, col_size)
 
     print('Put Numbers in this {}[{}][{}]{} Matrix\n'
           '{}({}CAUTION{}: skipping an index means {}ZERO{} as the assigned number to that index!{}){}\n'
@@ -24,61 +24,40 @@ def getMatrix(row=0, col=0):
                   Colors.WARNING, Colors.ENDC,
                   Colors.FAIL, Colors.ENDC))
 
-    for i in range(len(matrix)):
-        for j in range(len(matrix[i])):
+    for i in range(row_size):
+        for j in range(col_size):
             value = input('[{}][{}] : '.format(i, j))
             if value == '':
-                matrix[i][j] = 0
+                matrix.insert(i, j, 0)
             else:
-                matrix[i][j] = int(value.split()[0])
+                matrix.insert(i, j, int(value.split()[0]))
 
-    return matrix
+    return row_size, col_size, matrix
 
 def transpose():
-    makeTranspose = Operation().transpose
-    matrix = getMatrix()
-    transposed = makeTranspose(matrix)
-    print('{}Transposed ->{}'.format(Colors.HEADER, Colors.ENDC))
-    Operation().print(transposed)
+    x, y, matrix = getMatrix()
+    matrix.transpose().print()
 
 def subtract():
-    matrixOne = getMatrix()
+    x1, y1, matrixOne = getMatrix()
 
-    row = len(matrixOne[0])
-    col = len(matrixOne)
+    x2, y2, matrixTwo = getMatrix(x1, y1)
 
-    matrixTwo = getMatrix(row, col)
-
-    calcSubtraction = Operation().subtract
-    calculated = calcSubtraction(matrixOne, matrixTwo)
-    print('{}Subtraction ->{}'.format(Colors.HEADER, Colors.ENDC))
-    Operation().print(calculated)
+    matrixOne.subtract(matrixTwo).print()
 
 def add():
-    matrixOne = getMatrix()
+    x1, y1, matrixOne = getMatrix()
 
-    row = len(matrixOne[0])
-    col = len(matrixOne)
+    x2, y2, matrixTwo = getMatrix(x1, y1)
 
-    matrixTwo = getMatrix(row, col)
-
-    calcAddition = Operation().add
-    calculated = calcAddition(matrixOne, matrixTwo)
-    print('{}Addition ->{}'.format(Colors.HEADER, Colors.ENDC))
-    Operation().print(calculated)
+    matrixOne.add(matrixTwo).print()
 
 def multiply():
-    matrixOne = getMatrix()
+    x1, y1, matrixOne = getMatrix()
+    x2, y2, matrixTwo = getMatrix()
 
-    row = len(matrixOne)
-    col = len(matrixOne[0])
+    matrixOne.multiply(matrixTwo).print()
 
-    matrixTwo = getMatrix(row, col)
-
-    calcMultiplication = Operation().multiply
-    calculated = calcMultiplication(matrixOne, matrixTwo)
-    print('{}Multiplication ->{}'.format(Colors.HEADER, Colors.ENDC))
-    Operation().print(calculated)
 
 def showMenu():
     print('{}{}'.format(Colors.BOLD, Colors.OKBLUE), end='')
